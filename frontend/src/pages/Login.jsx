@@ -5,7 +5,6 @@ import Input from '../components/Input';
 import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
 import GoogleSignIn from '../components/GoogleSignIn';
-import LoadingScreen from '../components/LoadingScreen';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginWithGoogle, loginWithEmailAndPassword, logout } from '../Firebase/client';
@@ -359,35 +358,161 @@ const Login = () => {
   // Deshabilita el botón si hay errores o campos vacíos
   const isFormValid = !usernameError && username.length > 0 && password.length > 0;
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   return (
-    <div className="min-h-screen w-full flex flex-col">
-      <div className="flex flex-col-reverse md:flex-row flex-1">
-        {/* Lado izquierdo: Formulario de Login */}
-        <main className="flex-1 flex flex-col items-center justify-center bg-[#FBFCFB]">
-          {/* Título "Inicio de Sesión" con icono arroba */}
-          <div className="flex flex-col items-center mb-7">
-            <img src="./images/bytedental-logoAzul.png" alt="Icono arroba" className="size-14 w-26 mb-5 mt-3" />
-            <h1 className="text-header-blue text-46 font-bold font-poppins">
+    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0b2842 0%, #0d3259 50%, #0f3a66 100%)' }}>
+      
+      {/* Loading overlay - blurs the page behind */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-[#0b2842]/40">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-12 w-12 border-[3px] border-white/20 border-t-[#48A4D6]" />
+            <p className="text-white/50 text-[12px] font-poppins">Cargando...</p>
+          </div>
+        </div>
+      )}
+      
+      {/* Background network illustration */}
+      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="bgGlow1" cx="25%" cy="30%" r="40%">
+            <stop offset="0%" stopColor="#48A4D6" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#0b2842" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="bgGlow2" cx="75%" cy="70%" r="40%">
+            <stop offset="0%" stopColor="#48A4D6" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#0b2842" stopOpacity="0" />
+          </radialGradient>
+          <filter id="bgSoftGlow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect width="1200" height="800" fill="url(#bgGlow1)" />
+        <rect width="1200" height="800" fill="url(#bgGlow2)" />
+
+        {/* Network lines */}
+        <g stroke="#48A4D6" strokeWidth="0.8" strokeOpacity="0.1" fill="none">
+          <line x1="80" y1="120" x2="200" y2="80" />
+          <line x1="200" y1="80" x2="350" y2="140" />
+          <line x1="350" y1="140" x2="500" y2="60" />
+          <line x1="500" y1="60" x2="680" y2="120" />
+          <line x1="200" y1="80" x2="280" y2="220" />
+          <line x1="280" y1="220" x2="450" y2="280" />
+          <line x1="450" y1="280" x2="620" y2="200" />
+          <line x1="620" y1="200" x2="800" y2="150" />
+          <line x1="350" y1="140" x2="280" y2="220" />
+          <line x1="280" y1="220" x2="150" y2="320" />
+          <line x1="150" y1="320" x2="60" y2="450" />
+          <line x1="60" y1="450" x2="180" y2="560" />
+          <line x1="280" y1="220" x2="400" y2="380" />
+          <line x1="400" y1="380" x2="550" y2="450" />
+          <line x1="550" y1="450" x2="700" y2="380" />
+          <line x1="700" y1="380" x2="850" y2="300" />
+          <line x1="450" y1="280" x2="550" y2="450" />
+          <line x1="800" y1="150" x2="950" y2="200" />
+          <line x1="950" y1="200" x2="1050" y2="320" />
+          <line x1="850" y1="300" x2="1000" y2="380" />
+          <line x1="1000" y1="380" x2="1100" y2="500" />
+          <line x1="550" y1="450" x2="480" y2="580" />
+          <line x1="480" y1="580" x2="350" y2="650" />
+          <line x1="700" y1="380" x2="820" y2="500" />
+          <line x1="820" y1="500" x2="950" y2="600" />
+          <line x1="180" y1="560" x2="350" y2="650" />
+          <line x1="350" y1="650" x2="520" y2="700" />
+          <line x1="680" y1="120" x2="800" y2="150" />
+          <line x1="150" y1="320" x2="280" y2="420" />
+          <line x1="280" y1="420" x2="400" y2="380" />
+          <line x1="950" y1="200" x2="1100" y2="150" />
+          <line x1="1050" y1="320" x2="1150" y2="450" />
+          <line x1="820" y1="500" x2="700" y2="620" />
+          <line x1="700" y1="620" x2="520" y2="700" />
+          <line x1="60" y1="450" x2="180" y2="560" />
+          <line x1="950" y1="600" x2="1100" y2="650" />
+        </g>
+
+        {/* Network nodes */}
+        <g filter="url(#bgSoftGlow)">
+          <circle cx="80" cy="120" r="3" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="200" cy="80" r="3.5" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="350" cy="140" r="4" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="500" cy="60" r="3" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="680" cy="120" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="280" cy="220" r="4.5" fill="#48A4D6" fillOpacity="0.35" />
+          <circle cx="450" cy="280" r="4" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="620" cy="200" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="800" cy="150" r="3" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="150" cy="320" r="3.5" fill="#48A4D6" fillOpacity="0.28" />
+          <circle cx="60" cy="450" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="180" cy="560" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="400" cy="380" r="4" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="550" cy="450" r="4.5" fill="#48A4D6" fillOpacity="0.35" />
+          <circle cx="700" cy="380" r="3.5" fill="#48A4D6" fillOpacity="0.28" />
+          <circle cx="850" cy="300" r="3" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="950" cy="200" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="1050" cy="320" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="1000" cy="380" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="1100" cy="500" r="3" fill="#48A4D6" fillOpacity="0.2" />
+          <circle cx="480" cy="580" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="350" cy="650" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="820" cy="500" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="950" cy="600" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="520" cy="700" r="3" fill="#48A4D6" fillOpacity="0.2" />
+          <circle cx="700" cy="620" r="3" fill="#48A4D6" fillOpacity="0.2" />
+          <circle cx="280" cy="420" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="1150" cy="450" r="2.5" fill="#48A4D6" fillOpacity="0.18" />
+          <circle cx="1100" cy="150" r="2.5" fill="#48A4D6" fillOpacity="0.18" />
+          <circle cx="1100" cy="650" r="2.5" fill="#48A4D6" fillOpacity="0.18" />
+        </g>
+
+        {/* Floating particles */}
+        <circle cx="120" cy="200" r="1.5" fill="#48A4D6" fillOpacity="0.2">
+          <animate attributeName="cy" values="200;192;200" dur="5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="900" cy="450" r="1.5" fill="#48A4D6" fillOpacity="0.18">
+          <animate attributeName="cy" values="450;442;450" dur="6s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="600" cy="300" r="1.2" fill="#3bbba1" fillOpacity="0.15">
+          <animate attributeName="cy" values="300;294;300" dur="7s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="300" cy="500" r="1.2" fill="#3bbba1" fillOpacity="0.12">
+          <animate attributeName="cy" values="500;494;500" dur="5.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1000" cy="250" r="1.3" fill="#48A4D6" fillOpacity="0.15">
+          <animate attributeName="cy" values="250;244;250" dur="8s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="750" cy="550" r="1.2" fill="#48A4D6" fillOpacity="0.12">
+          <animate attributeName="cy" values="550;544;550" dur="6.5s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+
+      {/* Login Card */}
+      <div className="relative z-10 w-full max-w-[380px] mx-4">
+        <div className="bg-[#FBFCFB] rounded-3xl shadow-2xl px-10 py-9">
+          
+          {/* Logo and Title */}
+          <div className="flex flex-col items-center mb-6">
+            <img src="./images/bytedental-logoAzul.png" alt="ByteDental" className="w-16 mb-3" />
+            <h1 className="text-header-blue text-[24px] font-bold font-poppins text-center leading-tight">
               Inicio de Sesión
             </h1>
           </div>
 
-          {/* Formulario de Login */}
-          <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
-            {/* Mostrar error de login si existe */}
-            {loginError && (
-              <div className="mb-4 w-[338px] p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                {loginError}
-              </div>
-            )}
+          {/* Error */}
+          {loginError && (
+            <div className="mb-5 p-3 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm font-poppins text-center">
+              {loginError}
+            </div>
+          )}
 
-            {/* Campo de Usuario con validación de email */}
-            <div className="mb-5 w-[338px] pl-4">
-              <label htmlFor="username" className="block text-header-blue text-18 font-poppins mb-1 font-bold">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
+            {/* Email field */}
+            <div className="w-full max-w-[340px]">
+              <label htmlFor="username" className="block text-header-blue text-[13px] font-poppins mb-1.5 font-semibold">
                 Correo Electrónico
               </label>
               <Input
@@ -399,61 +524,60 @@ const Login = () => {
                 error={!!usernameError}
               />
               {usernameError && (
-                <p className="text-red-500 text-xs font-poppins mt-0">{usernameError}</p>
+                <p className="text-red-500 text-[11px] font-poppins mt-1">{usernameError}</p>
               )}
             </div>
 
-            {/* Campo de Contraseña */}
-            <div className="mb-4 w-[338px] pl-4 ">
-              <label htmlFor="password" className="block text-header-blue text-18 font-poppins mb-1 font-bold">
+            {/* Password field */}
+            <div className="w-full max-w-[340px]">
+              <label htmlFor="password" className="block text-header-blue text-[13px] font-poppins mb-1.5 font-semibold">
                 Contraseña
               </label>
               <InputPassword 
                 id="password"
-                placeholder="************"
+                placeholder="Ingrese su contraseña"
                 value={password}
                 onChange={handlePasswordChange}
                 onKeyDown={handleKeyPress}
                 error={!!passwordError}
               />
               {passwordError && (
-                <p className="text-red-500 text-xs font-poppins mt-2">{passwordError}</p>
+                <p className="text-red-500 text-[11px] font-poppins mt-1">{passwordError}</p>
               )}
             </div>
 
-            {/* Enlace ¿Olvidó su contraseña? */}
-            <a
-              onClick={handleForgotPasswordClick}
-              className="text-header-blue hover:underline text-16 font-poppins mb-5 self-start ml-[calc(50%-169px)] font-bold text-decoration: underline cursor-pointer" 
-            >
+            {/* Forgot password */}
+            <div className="w-full max-w-[340px]">
+              <a
+                onClick={handleForgotPasswordClick}
+                className="text-header-blue hover:underline text-[12px] font-poppins font-semibold cursor-pointer" 
+              >
                 ¿Olvidó su contraseña?
-            </a>
+              </a>
+            </div>
 
-            {/* Botón de Ingresar */}
-            <Button type="submit" className="shadow-md mb-5" disabled={!isFormValid}>
+            {/* Login button */}
+            <Button type="submit" className="!w-full max-w-[280px] !h-[42px] !rounded-[30px] !text-[14px] !bg-[#48A4D6] !text-white hover:!bg-[#3a8bb8] shadow-lg" disabled={!isFormValid}>
               Ingresar
             </Button>
           </form>
 
-          {/* Divisor "O inicia sesión con" */}
-          <div className="flex items-center w-[338px] mb-4">
+          {/* Divider */}
+          <div className="flex items-center w-full max-w-[280px] mx-auto my-5">
             <hr className="flex-grow border-t border-gray-line" />
-            <span className="px-4 text-gray-500 text-16 font-poppins">O</span>
+            <span className="px-3 text-gray-400 text-[13px] font-poppins">o</span>
             <hr className="flex-grow border-t border-gray-line" />
           </div>
 
-          {/* Botón de Google Sign-In */}
-          <GoogleSignIn onClick={handleGoogleLogin} className="shadow-md mb-2" />
-        </main>
+          {/* Google button */}
+          <div className="flex justify-center">
+            <GoogleSignIn onClick={handleGoogleLogin} className="shadow-md !w-full max-w-[280px] !h-[42px] !rounded-[30px] !text-[14px]" />
+          </div>
 
-        {/* Lado derecho: Imagen grande */}
-        <div className="flex-1 bg-gray-200">
-          <img
-            src="./images/digital-tooth.png"
-            alt="Imagen de fondo de inicio de sesión"
-            className="w-full h-full object-cover"
-          />
         </div>
+
+        {/* Bottom accent line */}
+        <div className="h-[3px] w-20 mx-auto mt-5 rounded-full" style={{ background: 'linear-gradient(90deg, #48A4D6, #3bbba1)' }} />
       </div>
     </div>
   );
