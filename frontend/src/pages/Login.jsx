@@ -5,7 +5,6 @@ import Input from '../components/Input';
 import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
 import GoogleSignIn from '../components/GoogleSignIn';
-import LoadingScreen from '../components/LoadingScreen';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginWithGoogle, loginWithEmailAndPassword, logout } from '../Firebase/client';
@@ -359,12 +358,18 @@ const Login = () => {
   // Deshabilita el botón si hay errores o campos vacíos
   const isFormValid = !usernameError && username.length > 0 && password.length > 0;
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0b2842 0%, #0d3259 50%, #0f3a66 100%)' }}>
+      
+      {/* Loading overlay - blurs the page behind */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-[#0b2842]/40">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-12 w-12 border-[3px] border-white/20 border-t-[#48A4D6]" />
+            <p className="text-white/50 text-[12px] font-poppins">Cargando...</p>
+          </div>
+        </div>
+      )}
       
       {/* Background network illustration */}
       <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
@@ -489,9 +494,9 @@ const Login = () => {
         <div className="bg-[#FBFCFB] rounded-3xl shadow-2xl px-10 py-9">
           
           {/* Logo and Title */}
-          <div className="flex flex-col items-center mb-8">
-            <img src="./images/bytedental-logoAzul.png" alt="ByteDental" className="w-20 mb-4" />
-            <h1 className="text-header-blue text-[32px] font-bold font-poppins text-center leading-tight">
+          <div className="flex flex-col items-center mb-6">
+            <img src="./images/bytedental-logoAzul.png" alt="ByteDental" className="w-16 mb-3" />
+            <h1 className="text-header-blue text-[24px] font-bold font-poppins text-center leading-tight">
               Inicio de Sesión
             </h1>
           </div>

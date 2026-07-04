@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import ProgressIndicator from '../components/ProgressIndicator';
 import Button from '../components/Button';
 import OtpInput from '../components/Otpinput';
-import LoadingScreen from '../components/LoadingScreen';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
@@ -153,87 +151,170 @@ const PasswordReset2 = () => {
     }
   };
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   return (
-    <div className="max-h-[calc(100vh-94px)] w-full flex flex-col">
-      <main className="flex-1 flex flex-col items-center bg-gray-50 mt-10">
-        <ProgressIndicator step={2} />
-        <h1 className="text-header-blue text-46 font-bold font-poppins mb-6">
-          Restablecer contraseña
-        </h1>
-        
-        {/* Mostrar contenido diferente según si el OTP fue validado */}
-        {!otpValidated ? (
-          <>
-            <p className="text-center w-[338px] font-poppins text-18">
-              Se acaba de enviar un código de verificación de cuatro dígitos a su correo electrónico. Ingréselo a continuación
-            </p>
+    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0b2842 0%, #0d3259 50%, #0f3a66 100%)' }}>
+      
+      {/* Loading overlay */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-[#0b2842]/40">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-12 w-12 border-[3px] border-white/20 border-t-[#48A4D6]" />
+            <p className="text-white/50 text-[12px] font-poppins">Verificando...</p>
+          </div>
+        </div>
+      )}
+      
+      {/* Background network illustration */}
+      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="bgGlow1" cx="25%" cy="30%" r="40%">
+            <stop offset="0%" stopColor="#48A4D6" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#0b2842" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="bgGlow2" cx="75%" cy="70%" r="40%">
+            <stop offset="0%" stopColor="#48A4D6" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#0b2842" stopOpacity="0" />
+          </radialGradient>
+          <filter id="bgSoftGlow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <rect width="1200" height="800" fill="url(#bgGlow1)" />
+        <rect width="1200" height="800" fill="url(#bgGlow2)" />
+        <g stroke="#48A4D6" strokeWidth="0.8" strokeOpacity="0.1" fill="none">
+          <line x1="80" y1="120" x2="200" y2="80" /><line x1="200" y1="80" x2="350" y2="140" />
+          <line x1="350" y1="140" x2="500" y2="60" /><line x1="500" y1="60" x2="680" y2="120" />
+          <line x1="200" y1="80" x2="280" y2="220" /><line x1="280" y1="220" x2="450" y2="280" />
+          <line x1="450" y1="280" x2="620" y2="200" /><line x1="620" y1="200" x2="800" y2="150" />
+          <line x1="280" y1="220" x2="150" y2="320" /><line x1="150" y1="320" x2="60" y2="450" />
+          <line x1="60" y1="450" x2="180" y2="560" /><line x1="280" y1="220" x2="400" y2="380" />
+          <line x1="400" y1="380" x2="550" y2="450" /><line x1="550" y1="450" x2="700" y2="380" />
+          <line x1="700" y1="380" x2="850" y2="300" /><line x1="800" y1="150" x2="950" y2="200" />
+          <line x1="950" y1="200" x2="1050" y2="320" /><line x1="850" y1="300" x2="1000" y2="380" />
+          <line x1="1000" y1="380" x2="1100" y2="500" /><line x1="550" y1="450" x2="480" y2="580" />
+          <line x1="480" y1="580" x2="350" y2="650" /><line x1="180" y1="560" x2="350" y2="650" />
+          <line x1="350" y1="650" x2="520" y2="700" /><line x1="700" y1="380" x2="820" y2="500" />
+          <line x1="820" y1="500" x2="950" y2="600" /><line x1="820" y1="500" x2="700" y2="620" />
+          <line x1="700" y1="620" x2="520" y2="700" />
+        </g>
+        <g filter="url(#bgSoftGlow)">
+          <circle cx="200" cy="80" r="3.5" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="350" cy="140" r="4" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="280" cy="220" r="4.5" fill="#48A4D6" fillOpacity="0.35" />
+          <circle cx="450" cy="280" r="4" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="150" cy="320" r="3.5" fill="#48A4D6" fillOpacity="0.28" />
+          <circle cx="400" cy="380" r="4" fill="#48A4D6" fillOpacity="0.3" />
+          <circle cx="550" cy="450" r="4.5" fill="#48A4D6" fillOpacity="0.35" />
+          <circle cx="700" cy="380" r="3.5" fill="#48A4D6" fillOpacity="0.28" />
+          <circle cx="850" cy="300" r="3" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="950" cy="200" r="3" fill="#48A4D6" fillOpacity="0.22" />
+          <circle cx="350" cy="650" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="1050" cy="320" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="820" cy="500" r="3.5" fill="#48A4D6" fillOpacity="0.25" />
+          <circle cx="520" cy="700" r="3" fill="#48A4D6" fillOpacity="0.2" />
+        </g>
+        <circle cx="120" cy="200" r="1.5" fill="#48A4D6" fillOpacity="0.2">
+          <animate attributeName="cy" values="200;192;200" dur="5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="900" cy="450" r="1.5" fill="#48A4D6" fillOpacity="0.18">
+          <animate attributeName="cy" values="450;442;450" dur="6s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="600" cy="300" r="1.2" fill="#3bbba1" fillOpacity="0.15">
+          <animate attributeName="cy" values="300;294;300" dur="7s" repeatCount="indefinite" />
+        </circle>
+      </svg>
 
-            <div className="mb-8">
-              <OtpInput onComplete={setOtpCode} />
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-[380px] mx-4">
+        <div className="bg-[#FBFCFB] rounded-3xl shadow-2xl px-10 py-10">
+
+          <div className="flex flex-col items-center mb-6">
+            <img src="./images/bytedental-logoAzul.png" alt="ByteDental" className="w-16 mb-3" />
+            <ProgressIndicator step={2} />
+            <h1 className="text-header-blue text-[22px] font-bold font-poppins text-center leading-tight">
+              Restablecer contraseña
+            </h1>
+          </div>
+
+          {!otpValidated ? (
+            <>
+              <p className="text-center text-gray-500 text-[13px] font-poppins mb-6">
+                Se envió un código de verificación a <strong className="text-header-blue">{email}</strong>. Ingrésalo a continuación.
+              </p>
+
               {showError && errorMessage && (
-                <p className="text-red-500 text-18 font-poppins mt-2 text-center">
+                <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm font-poppins text-center">
                   {errorMessage}
-                </p>
+                </div>
               )}
-            </div>
 
-            <Button 
-              className='text-18'
-              onClick={handleVerify} 
-              disabled={otpCode.length !== 4 || loading}
-            >
-              {loading ? 'Verificando...' : 'Verificar'}
-            </Button>
-            
-            <button 
-              onClick={handleResendCode}
-              disabled={resendLoading}
-              className="text-primary-blue hover:underline mt-4 disabled:opacity-50 text-18 "
-            >
-              {resendLoading ? 'Reenviando...' : 'Reenviar código'}
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="w-[338px] text-center mb-8">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
-                <div className="text-green-600 text-4xl mb-4">✅</div>
-                <h2 className="text-green-800 text-xl font-semibold font-poppins mb-2">
-                  ¡Código validado exitosamente!
-                </h2>
-                <p className="text-green-700 text-base font-poppins mb-2">
-                  Se ha enviado un enlace de restablecimiento a tu correo electrónico (<strong>{email}</strong>).<br />
-                  <span className="text-blue-700">Revisa tu bandeja de entrada y la carpeta de spam.</span>
-                </p>
-                <p className="text-gray-600 text-xs font-poppins">
-                  Haz clic en el enlace recibido para crear tu nueva contraseña.
-                </p>
-                {redirectCountdown !== null && (
-                  <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-blue-700 text-sm font-poppins">
-                      🔄 Redirigiendo al login en {redirectCountdown}s...
-                    </p>
-                  </div>
-                )}
+              {!showError && errorMessage && (
+                <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-xl text-sm font-poppins text-center">
+                  {errorMessage}
+                </div>
+              )}
+
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-full max-w-[340px]">
+                  <OtpInput onComplete={setOtpCode} />
+                </div>
+
+                <Button 
+                  className="!w-full max-w-[280px] !h-[42px] !rounded-[30px] !text-[14px] !bg-[#48A4D6] !text-white hover:!bg-[#3a8bb8] shadow-lg"
+                  onClick={handleVerify} 
+                  disabled={otpCode.length !== 4 || loading}
+                >
+                  {loading ? 'Verificando...' : 'Verificar'}
+                </Button>
+                
+                <button 
+                  onClick={handleResendCode}
+                  disabled={resendLoading}
+                  className="text-header-blue hover:underline text-[13px] font-poppins font-semibold disabled:opacity-50"
+                >
+                  {resendLoading ? 'Reenviando...' : 'Reenviar código'}
+                </button>
+
+                <a onClick={() => { setLoading(true); setTimeout(() => navigate('/'), 400); }} className="text-header-blue hover:underline text-[13px] font-poppins font-semibold cursor-pointer">
+                  Volver a Inicio de sesión
+                </a>
               </div>
-            </div>
-          </>
-        )}
-        
-        {/* Mensaje de error general (solo cuando hay error y no se validó OTP) */}
-        {!otpValidated && !showError && errorMessage && (
-          <p className="text-green-500 text-xs font-poppins mt-2 text-center">
-            {errorMessage}
-          </p>
-        )}
-        <a onClick={() => navigate('/')} className="mt-6 text-header-blue hover:underline font-bold cursor-pointer text-18">
-          Volver a Inicio de sesión
-        </a>
-      </main>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col items-center gap-4">
+                <div className="bg-green-50 border border-green-200 rounded-2xl p-6 w-full max-w-[340px]">
+                  <h2 className="text-green-800 text-[16px] font-semibold font-poppins mb-2 text-center">
+                    ¡Código validado!
+                  </h2>
+                  <p className="text-green-700 text-[13px] font-poppins text-center mb-1">
+                    Se ha enviado un enlace de restablecimiento a <strong>{email}</strong>.
+                  </p>
+                  <p className="text-gray-600 text-[12px] font-poppins text-center">
+                    Revisa tu bandeja de entrada y carpeta de spam.
+                  </p>
+                </div>
+
+                {redirectCountdown !== null && (
+                  <p className="text-gray-400 text-[12px] font-poppins">
+                    Redirigiendo al login en {redirectCountdown}s...
+                  </p>
+                )}
+
+                <a onClick={() => { setLoading(true); setTimeout(() => navigate('/'), 400); }} className="text-header-blue hover:underline text-[13px] font-poppins font-semibold cursor-pointer">
+                  Volver a Inicio de sesión
+                </a>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="h-[3px] w-20 mx-auto mt-5 rounded-full" style={{ background: 'linear-gradient(90deg, #48A4D6, #3bbba1)' }} />
+      </div>
     </div>
   );
 };

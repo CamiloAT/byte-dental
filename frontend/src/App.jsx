@@ -36,10 +36,11 @@ function AppContent() {
 
   const isLoginPage = location.pathname === '/login' || location.pathname === '/';
   const isForcePasswordChangePage = location.pathname === '/force-password-change';
+  const isPasswordResetPage = location.pathname.startsWith('/PasswordReset');
 
   return (
     <div className="min-h-screen w-full flex flex-col">
-      {!isLoginPage && !isForcePasswordChangePage && (isAuthenticated ? <UserHeader userRole={userRole} /> : <Header />)}
+      {!isLoginPage && !isForcePasswordChangePage && !isPasswordResetPage && (isAuthenticated ? <UserHeader userRole={userRole} /> : <Header />)}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
