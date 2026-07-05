@@ -806,13 +806,6 @@ const RegisterPatient = () => {
     const hasDisabilityValue = formData.has_disability === "true" || formData.has_disability === true;
     const disabilityDescValue = hasDisabilityValue && formData.disability_description ? formData.disability_description.trim() : null;
 
-    console.log('🔍 Debug de discapacidad:');
-    console.log('  - formData.has_disability:', formData.has_disability, typeof formData.has_disability);
-    console.log('  - hasDisabilityValue:', hasDisabilityValue);
-    console.log('  - formData.disability_description:', formData.disability_description);
-    console.log('  - disabilityDescValue final:', disabilityDescValue);
-    console.log('  - Validación backend: Si has_disability=true, disability_description debe no ser null/empty');
-
     // Validación previa para evitar error 422
     if (hasDisabilityValue && !disabilityDescValue) {
       setFormError('Si el paciente tiene discapacidad, debe proporcionar una descripción válida.');
@@ -854,7 +847,6 @@ const RegisterPatient = () => {
 
     try {
       setLoading(true);
-      console.log('🚀 Payload being sent:', JSON.stringify(patientPayload, null, 2));
       await createPatient(patientPayload, token);
       toast.success("Paciente registrado con éxito");
 

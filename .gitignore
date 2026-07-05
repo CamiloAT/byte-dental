@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+._*
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Firebase credentials
+*firebase-adminsdk*.json
+serviceAccountKey.json
+
+# Test artifacts
+security_report_*.json
+security_report_*.csv
+security_test_*.log
+consolidated-reports/
+
+# Debug files
+otp_debug.log

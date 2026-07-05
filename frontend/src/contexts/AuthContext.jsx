@@ -76,7 +76,6 @@ export function AuthProvider({ children }) {
     if (!currentUser) return;
 
     const interval = setInterval(async () => {
-      console.log('🔄 Refreshing Firebase token...');
       await refreshToken(currentUser);
     }, 50 * 60 * 1000); // 50 minutos
 

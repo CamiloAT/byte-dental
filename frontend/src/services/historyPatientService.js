@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 // Función genérica para manejar las respuestas de la API
 const handleResponse = async (response) => {

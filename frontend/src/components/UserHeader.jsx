@@ -84,17 +84,14 @@ const UserHeader = ({ userRole }) => {
   };
 
   const fetchUserData = async () => {
-    console.log('🔍 Fetching user data...');
     setLoadingUserData(true);
     try {
-      console.log('🔑 Token from context:', token ? 'Present' : 'Missing');
       if (!token) {
         console.error('❌ No token found in context');
         return;
       }
 
-      const url = `${import.meta.env.VITE_API_URL}/api/users/me`;
-      console.log('🌐 Fetching from:', url);
+      const url = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/users/me`;
 
       const response = await fetch(url, {
         headers: {
@@ -103,14 +100,10 @@ const UserHeader = ({ userRole }) => {
         }
       });
 
-      console.log('📊 Response status:', response.status);
-
       if (response.ok) {
         const data = await response.json();
-        console.log('✅ User data received:', data);
         setUserData(data);
         setIsProfileModalOpen(true);
-        console.log('🎭 Modal should be open now');
       } else {
         console.error('❌ Error fetching user data:', response.statusText);
       }
@@ -118,19 +111,13 @@ const UserHeader = ({ userRole }) => {
       console.error('💥 Exception:', error);
     } finally {
       setLoadingUserData(false);
-      console.log('✅ Fetch completed');
     }
   };
 
   const handleUserIconClick = () => {
-    console.log('👆 User icon clicked');
-    console.log('📊 Current state:', { userData: !!userData, loadingUserData, isProfileModalOpen });
-    
     if (!userData && !loadingUserData) {
-      console.log('➡️ Fetching user data...');
       fetchUserData();
     } else if (userData) {
-      console.log('➡️ Opening modal with existing data');
       setIsProfileModalOpen(true);
     }
   };

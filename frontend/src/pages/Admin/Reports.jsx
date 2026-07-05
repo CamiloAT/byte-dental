@@ -146,7 +146,7 @@ const Reports = () => {
       const selectedReport = reportOptions.find(option => option.value === reportType);
       const endpoint = selectedReport?.endpoint || 'activities';
       
-      const url = `${import.meta.env.VITE_API_URL}/api/reports/${endpoint}?format=pdf`;
+      const url = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/reports/${endpoint}?format=pdf`;
 
       // Preparar el cuerpo de la solicitud según el tipo de reporte
       let requestBody;
@@ -177,13 +177,6 @@ const Reports = () => {
         };
       }
 
-      console.log('📅 Datos enviados al backend:', {
-        url,
-        method: 'POST',
-        body: requestBody,
-        originalDates: { startDate, endDate }
-      });
-
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -193,19 +186,12 @@ const Reports = () => {
         body: JSON.stringify(requestBody)
       });
 
-      console.log('📡 Respuesta del servidor:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries())
-      });
-
       if (!response.ok) {
         let errorMessage = 'Error al generar el reporte';
         let errorDetails = null;
         
         try {
           const responseText = await response.text();
-          console.log('❌ Respuesta de error completa:', responseText);
           
           if (responseText) {
             try {
@@ -243,11 +229,9 @@ const Reports = () => {
 
       // Verificar si la respuesta es un PDF
       const contentType = response.headers.get('content-type');
-      console.log('📄 Content-Type:', contentType);
 
       if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
-        console.log('📊 Datos JSON recibidos:', data);
         
         if (data.activities && data.activities.length === 0) {
           toast.warning('No se encontraron registros en el periodo especificado');
@@ -261,7 +245,6 @@ const Reports = () => {
 
       // Convertir la respuesta a blob
       const blob = await response.blob();
-      console.log('📁 Tamaño del PDF:', blob.size, 'bytes');
 
       if (blob.size === 0) {
         toast.warning('El archivo PDF está vacío');
@@ -281,8 +264,6 @@ const Reports = () => {
       
       const fileName = `reporte_${reportTypeText}_${dateString}.pdf`;
       link.download = fileName;
-      
-      console.log('⬇️ Iniciando descarga:', fileName);
       
       // Agregar el enlace al DOM, hacer clic y removerlo
       document.body.appendChild(link);

@@ -193,15 +193,6 @@ const PatientProfileCard = ({ patient }) => {
     // Calculate patient age
     const patientAge = calculateAge(patient.person?.birthdate || patient.birthdate);
 
-    // Debug logging for development
-    React.useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
-            if (patient?.has_disability && !patient?.guardian) {
-                console.log('⚠️ Patient has disability but no guardian data');
-            }
-        }
-    }, [patient]);
-
     return (
         <div className="w-full max-w-sm bg-white rounded-xl shadow-xl overflow-hidden font-poppins transition-transform duration-300 hover:shadow-2xl">
             {/* Header Section: Avatar, name and status */}
