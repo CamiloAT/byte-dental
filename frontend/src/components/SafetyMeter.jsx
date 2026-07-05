@@ -62,8 +62,8 @@ const SafetyMeter = ({ strength }) => {
   };
 
   return (
-    <div className="flex flex-col items-start w-full mt-2">
-      <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+    <div className="flex flex-col items-center w-3/4 mx-auto mt-1.5">
+      <div className="w-full bg-gray-200 h-[5px] rounded-full overflow-hidden">
         <div
           className={cn(
             "h-full rounded-full transition-all duration-300 ease-in-out",
@@ -72,7 +72,7 @@ const SafetyMeter = ({ strength }) => {
           )}
         />
       </div>
-      <p className={cn("text-18 mt-1 font-poppins font-semibold", getLabelColor())}>
+      <p className={cn("text-[10px] mt-0.5 font-poppins font-medium text-center w-full", getLabelColor())}>
         {getLabel()}
       </p>
     </div>

@@ -146,7 +146,7 @@ const Reports = () => {
       const selectedReport = reportOptions.find(option => option.value === reportType);
       const endpoint = selectedReport?.endpoint || 'activities';
       
-      const url = `${import.meta.env.VITE_API_URL}/api/reports/${endpoint}?format=pdf`;
+      const url = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/reports/${endpoint}?format=pdf`;
 
       // Preparar el cuerpo de la solicitud según el tipo de reporte
       let requestBody;

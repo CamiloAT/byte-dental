@@ -234,7 +234,7 @@ const PasswordReset2 = () => {
 
           <div className="flex flex-col items-center mb-6">
             <img src="./images/bytedental-logoAzul.png" alt="ByteDental" className="w-16 mb-3" />
-            <ProgressIndicator step={2} />
+            <ProgressIndicator step={otpValidated ? 3 : 2} />
             <h1 className="text-header-blue text-[22px] font-bold font-poppins text-center leading-tight">
               Restablecer contraseña
             </h1>

@@ -93,7 +93,7 @@ const UserHeader = ({ userRole }) => {
         return;
       }
 
-      const url = `${import.meta.env.VITE_API_URL}/api/users/me`;
+      const url = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/users/me`;
       console.log('🌐 Fetching from:', url);
 
       const response = await fetch(url, {

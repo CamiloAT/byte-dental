@@ -142,7 +142,7 @@ const Login = () => {
       // Verificar si el usuario necesita cambiar contraseña
       try {
         const token = await user.getIdToken();
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/users/me`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -262,7 +262,7 @@ const Login = () => {
       // Verificar si el usuario necesita cambiar contraseña
       try {
         const token = await user.getIdToken();
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/users/me`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

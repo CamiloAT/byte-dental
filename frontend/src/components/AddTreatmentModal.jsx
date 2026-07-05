@@ -45,7 +45,7 @@ const AddTreatmentModal = ({
         // Solicitar /api/users/me (mismo endpoint que usan otras páginas)
         (async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/users/me`, {
+                const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/users/me`, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
