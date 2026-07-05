@@ -22,13 +22,6 @@ const ProcedureDistributionChart = ({ data, totalProcedures }) => {
     return `hsl(${220 + (index * 30)}, 70%, 40%)`;
   };
 
-  // Log para debug
-  console.log('📊 Datos del gráfico de distribución:', data.map(item => ({
-    procedure: item.procedure,
-    percentage: item.percentage,
-    quantity: item.quantity
-  })));
-  
   return (
     <div className="h-80">
       {/* Información general */}
@@ -48,8 +41,6 @@ const ProcedureDistributionChart = ({ data, totalProcedures }) => {
             
             const barColor = getColor(index);
             const hoverColor = getHoverColor(index);
-            
-            console.log(`Barra ${item.procedure}: ${heightPercentage}% de altura`);
             
             return (
               <div 

@@ -106,7 +106,6 @@ export function resetPassword(email) {
   }
   return sendPasswordResetEmail(auth, email)
     .then(() => {
-      console.log("Password reset email sent successfully");
       return true;
     })
     .catch((error) => {
@@ -122,7 +121,6 @@ export function resetPassword(email) {
 export function logout() {
   return signOut(auth)
     .then(() => {
-      console.log("User signed out successfully");
       return true;
     })
     .catch((error) => {
@@ -155,7 +153,6 @@ export async function changePassword(currentPassword, newPassword) {
   try {
     await reauthenticateWithCredential(user, credential);
     await updatePassword(user, newPassword);
-    console.log("Password updated successfully");
     return true;
   } catch (error) {
     console.error("Error updating password:", error);
@@ -175,7 +172,6 @@ export function isAuthenticated() {
 export function verifyPasswordResetCodeCustom(oobCode) {
   return verifyPasswordResetCode(auth, oobCode)
     .then((email) => {
-      console.log("Password reset code verified for:", email);
       return email;
     })
     .catch((error) => {
@@ -191,7 +187,6 @@ export function verifyPasswordResetCodeCustom(oobCode) {
 export function confirmPasswordResetCustom(oobCode, newPassword) {
   return confirmPasswordReset(auth, oobCode, newPassword)
     .then(() => {
-      console.log("Password reset successful");
       return true;
     })
     .catch((error) => {
@@ -205,5 +200,3 @@ export function confirmPasswordResetCustom(oobCode, newPassword) {
 
 // Exportar la instancia de auth para uso en otras partes de la aplicación
 export { auth };
-
-console.log("Firebase initialized:", app);

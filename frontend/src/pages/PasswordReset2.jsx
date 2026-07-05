@@ -43,14 +43,12 @@ const PasswordReset2 = () => {
       const result = await otpService.verifyOTP(email, code);
       
       if (result.success) {
-        console.log('Código OTP validado. Enviando email de restablecimiento de Firebase...');
         const auth = getAuth();
         
         try {
           // Firebase manejará la URL automáticamente basándose en la configuración del console
           await sendPasswordResetEmail(auth, email);
           
-          console.log('Email de restablecimiento enviado exitosamente');
           setOtpValidated(true);
           
           // Mostrar mensaje de éxito
@@ -101,7 +99,6 @@ const PasswordReset2 = () => {
         } else {
           setErrorMessage('El código no coincide. Verifica e intenta nuevamente.');
         }
-        console.log('Código incorrecto.');
       }
     } catch (error) {
       console.error('Error verificando OTP:', error);

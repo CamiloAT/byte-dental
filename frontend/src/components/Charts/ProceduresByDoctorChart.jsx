@@ -50,13 +50,6 @@ const ProceduresByDoctorChart = ({ data }) => {
 
   const totalProcedures = data.reduce((sum, item) => sum + item.total_procedures, 0);
 
-  // Log para debug
-  console.log('📊 Datos del gráfico:', data.map(item => ({
-    doctor: item.doctor,
-    percentage: item.percentage,
-    total: item.total_procedures
-  })));
-
   return (
     <div className="h-80">
       {/* Información general */}
@@ -77,8 +70,6 @@ const ProceduresByDoctorChart = ({ data }) => {
             
             const barColor = getColor(index);
             const hoverColor = getHoverColor(index);
-            
-            console.log(`Barra ${item.doctor}: ${heightPercentage}% de altura`);
             
             return (
               <div 
